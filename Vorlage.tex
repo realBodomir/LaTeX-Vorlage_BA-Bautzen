@@ -1,0 +1,283 @@
+%hier werden die Haupteigenschaften des Dokumentes parametriert
+%Die Schriftgröße ist 12pt, die Papiergröße A4, die Dokumentenklasse ist scrartcl (eine KOMA-Skript-Klasse)
+%die Option listof=entryprefix sorgt dafür, dass sich die Bezeichnungen der Abbildungen und Tabellen ändern lassen (Zeile 13,14)
+%die Option captions=tableheading verändert die Formattierung der caption von Tabellen, da diese über der Tabelle gesetzt wird
+\documentclass[
+	12pt, 
+	a4paper, 
+	listof=entryprefix,
+	captions=tableheading
+	]{scrartcl}
+\pdfminorversion=7
+
+\providecaptionname{ngerman}{\listoflofentryname}{Abb.}			%setzt den Namen der Abbildungen
+\providecaptionname{ngerman}{\listoflotentryname}{Tabelle}		%setzt den Namen der Tabellen
+\usepackage{caption}[center]										%zentriert den Text einer caption
+%Bearbeitung der Tabellencaption:
+\captionsetup[table]{labelsep=newline,format=plain,width=0.5\textwidth,  justification=centering, position=above}		
+
+
+\usepackage[ngerman]{babel} 								%neue Rechtschreibung und Silbentrennung
+\usepackage[utf8]{inputenc}								%ermöglicht Umlaute
+\usepackage[T1]{fontenc}									%Umlaute gemeinsam mit inputenc (8-bit Kodierung)
+\usepackage{mathptmx}
+\DeclareSymbolFont{Symbols}{OMS}{zplm}{m}{n}				%Times New Roman
+\DeclareMathSymbol{\Infty}{\mathord}{Symbols}{"31}		%Unendlichkeitssymbol hinzufügen
+\setkomafont{disposition}{\normalfont\bfseries}			%Stil in Matheumgebung
+
+\usepackage{color}											%Text ist färbbar
+\usepackage{microtype}	    								%Blocksatz
+\usepackage{setspace} 										%Einstellung Zeilenabstand
+\onehalfspacing 											%1.5 Zeilenabstand
+						
+\def\theequation{\thesection.\arabic{equation}}			%Formelnummerierung entsprechend dem Kapitel
+\usepackage{amsmath}										%für mathematische Formeln
+\usepackage{physics}										%Ableitungsabkürzung
+\usepackage{amsfonts}										%weitere mathematische Symbole
+\usepackage{amssymb}										%Symbole wie Pfeile, etc.
+\usepackage{tikz}											%Diagramme und Zeichnungen
+\usepackage{tikz-3dplot}									%3D-Plots
+\usetikzlibrary{matrix,calc,patterns,angles,quotes}
+\usepackage{pgfplots}										%Diagramme
+\usepackage{circuitikz}									%Schaltbilder
+\usepackage{makecell}										%Zeilenumbruch in Tabelle
+\usepackage{longtable}										%Seitenübergreifende Tabelle
+\usepackage[colorlinks=true,								%alle Links schwarz
+        linkcolor=black,
+        citecolor=black,
+        filecolor=black,
+        pagecolor=black,
+        urlcolor=black,
+        bookmarks=true,
+        bookmarksopen=true,
+        bookmarksopenlevel=3,
+        plainpages=false,
+        pdfpagelabels=true]{hyperref}
+\usepackage{romannum}
+\addto\extrasngerman{
+\renewcommand{\figureautorefname}{Abb.}					%Referenzbezeichnung für Abbildungen
+\renewcommand{\tableautorefname}{Tabelle}					%Referenzbezeichnung für Tabellen
+\renewcommand{\equationautorefname}{}						%keine Referenzbezeichnung für Gleichungen
+}
+
+\usepackage[
+	left=4cm,
+	right=2cm,
+	top=2cm,
+	bottom=2cm
+	]{geometry}												%Seitenränder
+	
+\usepackage{scrlayer-scrpage}								%Zentrierung der Seitenzahl
+\pagestyle{scrheadings}
+\clearpairofpagestyles										%nothing in the headline
+\chead{\pagemark}											%pagemark centered in headline
+	
+\usepackage{tocbasic}										%Inhaltsverzeichnis
+\usepackage[nohyperlinks]{acronym}							%Abkürzungen
+\usepackage[style=ieee, sorting=none]{biblatex}  			%Zitierstil
+%\addbibresource{Bachelorarbeit.bib}						%Literaturdatei, am besten man nutzt Zotero oder andere Literaturverwaltungsprogramme
+
+\usepackage{pdfpages}
+\begin{document}
+\renewcommand\tablename{TABELLE}							%Tabellenüberschrift
+\renewcommand\thetable{\Roman{table}}						%Beschriftungsart Tabelle
+\renewcommand\figurename{Abb.}								%Abbildungsüberschrift
+\newcommand{\autoeqref}[1]{\hyperref[#1]{\equationautorefname~(\ref*{#1})}} %Gleichungsreferenzierung
+
+
+\makeatletter
+	\renewcommand\@dotsep{10000}
+\makeatother
+
+%\includepdf[pages=1]{Titelblatt_Bachelorarbeit.pdf}  	%Titelblatt
+%\includepdf[pages=1]{Thema_Bachelorarbeit.pdf}  			%Thema
+%\includepdf[pages=1]{Einreichung_Thesis}					%Einreichungsformblatt
+\clearpairofpagestyles
+\begin{flushleft}
+\section*{Autorenreferat}
+\end{flushleft}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+\section*{Abkürzungsverzeichnis}
+\begin{acronym}
+\acro{BLDC}[BLDC-Motor]{bürstenloser Gleichstrommotor}
+\acroplural{BLDC}[BLDC-Motoren]{bürstenlose Gleichstrommotoren}
+\end{acronym}
+\newpage
+
+\section*{Verzeichnis mathematischer Symbole}
+\addcontentsline{toc}{section}{Verzeichnis mathematischer Symbole}
+\begin{longtable}{cp{0.7\textwidth}}
+  $F$ & Kraft\\
+  $I$ & Strom
+\end{longtable}
+\setcounter{table}{0}
+\newpage
+
+\addcontentsline{toc}{section}{Tabellenverzeichnis}
+\listoftables
+\newpage
+
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\listoffigures
+\newpage
+\chead{\pagemark}
+\thispagestyle{empty}
+\section{Einleitung}
+Dieses Dokument kann als Vorlage für wissenschaftliche Arbeiten an der Berufsakademie Bautzen, in technischen Studiengängen verwendet werden. Es gibt keine Gewähr auf Richtigkeit oder Vollständigkeit der Formatierung!\\
+Im Folgenden sind ein paar grundlegende Beispiele gegeben die als Anhaltspunkt dienen sollen.
+\section{Grundlegende Elemente}
+\subsection{Bild einfügen mit Gleitumgebung}
+Gleitumgebungen ermöglichen das dynamische Einbinden einer Abbildung. Hierbei wird das Bild dort positioniert wo es passt.
+\begin{figure}[h]							%[h]->wird wenn möglich an dieser Stelle platziert
+\centering
+\includegraphics[scale=0.5]{Testbild.jpg}
+\caption{EINGEFÜGTES BILD}
+\label{fig:Testbild}
+\end{figure}
+\subsection{Bilder zeichnen mit tikzpicture und Nutzung von minipages}
+\begin{minipage}{0.45\textwidth}
+\begin{tikzpicture}
+\coordinate (a) at (7,3.5);
+\coordinate (b) at (3.5,3.5);
+\coordinate (c) at (5,6.5);
+\coordinate (d) at (5.5,6);
+	\draw[thick,->](0,3.5)--(7,3.5)node[anchor=west]{$\alpha$};
+	\draw[thick,->](3.5,0)--(3.5,7)node[anchor=west]{$j\beta$};
+	\draw[thick,->, color=blue](2,0.5)--(5,6.5)node[anchor=west]{$\mathrm{q}$};
+	\draw[thick,->, color=blue](6.5,2)--(0.5,5)node[anchor=south]{$\mathrm{d}$};
+	\draw[thick,->, color=green] (1.5,1)--(5.5,6)node[anchor=north west]{$\gamma$};
+	\draw[thick,->, color=green] (6,1.5)--(1,5.5)node[anchor=south]{$\delta$};
+	\pic [pic text={$\theta$}, draw, thick, ->,angle radius = 1cm, angle eccentricity=0.7] {angle = a--b--c};
+	\pic [pic text={$\hat{\theta}$}, draw, thick, ->, angle radius = 2.5cm, angle eccentricity = 0.7]{angle = a--b--d};
+	\pic [pic text={$\overline{\theta}$}, draw, thick, ->, angle radius = 2.8cm, angle eccentricity = 0.85]{angle = d--b--c};
+\end{tikzpicture}
+\captionof{figure}{TIKZPICTURE}
+\label{fig:tikzpicture}
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\textwidth}
+\centering
+\textbf{\{Hier könnte dein Text stehen\}}
+\end{minipage}
+\subsection{Einbinden von PDFs als Bild}
+\begin{center}
+	\includegraphics[scale=0.2]{Testbild.pdf}
+	\captionof{figure}{PDF ALS BILD}
+\end{center}
+\subsection{Einbinden von csv-daten und erstellen von Diagrammen}
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[width=\textwidth,height=0.2\textheight,
+				title={Diagrammtitel},
+				xtick={0, 100, 200},
+				xlabel={x-Achse},
+				extra y ticks={},
+				ylabel={y-Achse},
+				]
+			\addplot table[x=Zeit, y=nichtZeit, col sep = semicolon]{test.csv};
+		\end{axis}
+	\end{tikzpicture}
+\captionof{figure}{DIAGRAMM AUS CSV-DATEI}
+\label{fig:CSVDiagramm}
+\end{center}
+\subsection{Schaltplan mit circuitikz}
+\begin{center}
+\begin{circuitikz}[european]
+\draw(0,0)to [vsource, v=$u_{St}(t)$]++(0,2);
+\draw(0,2)to [R, l_=$R_{St}$]++(4,0);
+\draw(4,2)to [L, l_=$L_{St}$]++(2,0);
+\draw(8,2)to [vsource, v=$u_{P}(t)$]++(-2,0);
+\draw(8,2)--++(0,-2)--++(-8,0);
+\end{circuitikz}
+\captionof{figure}{BEISPIELSCHALTUNG MIT CIRCUITIKZ}
+\label{fig:Beispielschaltung}
+\end{center}
+\subsection{Darstellung von Gleichungen}
+In der \textit{align} Umgebung werden Gleichungen fortlaufend dargestellt, es ist möglich diese am = oder anderen Stellen gleich auszurichten.
+\begin{align}
+\intertext{Kommutativgesetz:}
+	c &= a+b			\\
+	  &= b+a			%Das & vor dem = bewirkt das untereinanderschreiben der Gleichungen
+\end{align}
+In der \textit{equation} Umgebung können nur einzelne Gleichungen dargestellt werden, die Ausrichtung erfolgt immer zentriert.\\
+Kommutativgesetz:
+\begin{equation}
+c = a+b
+\end{equation}
+\begin{equation}
+=b+a
+\end{equation}
+\subsection{Erstellen von Tabellen}
+\begin{center}
+\captionof{table}{Tabellenerstellung}				%die caption muss über der Tabelle gesetzt werden, damit diese als Tabellenüberschrift erscheint!
+\label{tab:Tabelle1}
+\begin{tabular}{|c|c|}
+\hline
+\makecell{Titel1}&\makecell{Titel2}\\
+\hline
+\makecell{Wert1}&\makecell{Wert2}\\
+\hline
+\end{tabular}
+\end{center}
+\newpage
+\thispagestyle{empty}
+\newpage
+\addcontentsline{toc}{section}{Literaturverzeichnis}
+\printbibliography  
+\newpage
+\section*{Anlagenverzeichnis}
+\begin{itemize}
+	\item Anlage I  	- Lastenheft
+\end{itemize}
+\newpage
+\pagestyle{empty}
+\newgeometry{left=2cm,
+	right=2cm,
+	top=2cm,
+	bottom=2cm}
+\null \vfill
+  \begin{center}
+ 	\Huge {Anlagen}\\
+ 	\vspace*{0.5cm}
+ 	zur\\
+ 	\textbf{Projekt-, Seminar-, Bachelorarbeit}\\
+ 	\vspace*{0.5cm}
+ 	---Thema---
+\\
+ 	\vspace*{0.5cm}
+ 	eingereicht von\\
+ 	\vspace*{0.5cm}
+ 	Max Mustermann\\
+ 	Seminargruppe 1XXXX-1\\
+ 	Matrikelnr. 100xxxx
+   \end{center}
+ \null \vfill
+\newpage
+\newgeometry{left=4cm,
+	right=2cm,
+	top=2cm,
+	bottom=2cm}
+\section*{Selbstständigkeitserklärung}
+Ich erkläre an Eides statt, dass ich die vorliegende Arbeit (entsprechend der genannten Verantwortlichkeit) selbstständig und nur unter Verwendung der angegebenen Quellen und
+Hilfsmittel angefertigt habe.
+Die Zustimmung der Firma zur Verwendung betrieblicher Unterlagen habe ich eingeholt.
+Die Arbeit wurde bisher in gleicher oder ähnlicher Form weder veröffentlicht noch einer anderen
+Prüfungsbehörde vorgelegt.
+\newline
+\newline
+\newline
+\newline
+
+\begin{flushleft}
+\begin{tikzpicture}
+	\draw (0,0)--(15,0);
+\end{tikzpicture}
+
+Ort, Abgabetermin \hfill Unterschrift des Verfassers
+\end{flushleft}
+\end{document}
